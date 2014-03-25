@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Mhauri_SampleOrder>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Mhauri_SampleOrder>
+    </modules>
+</config>
