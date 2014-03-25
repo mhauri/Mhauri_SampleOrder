@@ -4,7 +4,8 @@
 $this->startSetup();
 
 $product = new Mage_Catalog_Model_Product();
-$product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
+$product
+    ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
     ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG)
     ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setWebsiteIds(array(1))
@@ -28,5 +29,4 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
     );
 
 $product->save();
-
 $this->endSetup();
