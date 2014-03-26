@@ -5,94 +5,60 @@
  */
 class Mhauri_SampleOrder_Model_Observer
 {
-    /**
-     * Set the options with origin product info
-     *
-     * @param Varien_Event_Observer $observer
-     *
-     * @event sales_quote_add_item
-     */
-    public function setQuoteOptions($observer)
+    public function checkoutCartProductAddAfter(Varien_Event_Observer $observer)
     {
-        $quoteItem = $observer->getEvent()->getQuoteItem();
-        // is it a sample order
-        if (Mage::helper('sampleorder')->isSampleOrder($quoteItem->getSku())) {
-            if ($info = Mage::helper('sampleorder')->getOptions($quoteItem)) {
-                $request = $info;
-            } else {
-                $request = Mage::app()->getRequest()->getParams();
-            }
+        $item    = $observer->getQuoteItem();
 
-            // check if sku and id are set, if not it's maybe an reorder action, so catch them too
-            if (!$request['sku'] || !$request['id']) {
-                $request = Mage::app()->getRequest()->getParams();
-                if(isset($request['order_id'])) {
-                    // it's an reorder so get the data
-                    $order = Mage::getModel('sales/order')->load($request['order_id']);
-                    // now match current quoteItem with the item from the order
-                    $items = $order->getAllItems();
-                    foreach($items as $item) {
-                        if(Mage::helper('sampleorder')->isSampleOrder($item->getSku())) {
-                            if($quoteItem->getProductId() === $item->getProductId()) {
-                                $request = Mage::helper('sampleorder')->getOptions($item);
-                            }
-                        }
-                    }
-                } elseif(!$request['sku'] || !$request['id']) {
-                    // it's no reorder, so the params are missing, fail here
-                    Mage::getSingleton('checkout/session')->addError(Mage::helper('sampleorder')->__('Please fill out all the required fields.'));
-                    Mage::app()->getResponse()->setRedirect(Mage::getUrl('checkout/cart'))->sendResponse();
-                    exit;
-                }
-            }
+        if ($item->getParentItem()) {
+            $item = $item->getParentItem();
+        }
 
-            // check if there is already a sample like this in the basket
+        $product = $item->getProduct();
+
+        if(Mage::helper('sampleorder')->isSampleOrderAllowed($product) && $item->getBuyRequest()->getSampleorder()) {
+
+            $name = Mage::helper('sampleorder')->__('Sample: %s', $product->getName());
+
+            $params = array(
+                'id'    => $product->getId(),
+                'name'  => $name,
+                'price' => 0
+            );
+
+            // check if the sample is already in the basket
             $count = 0;
             $cart = Mage::getModel('checkout/cart')->getQuote();
-            foreach ($cart->getAllItems() as $item) {
-                if(Mage::helper('sampleorder')->isSampleOrder($item->getSku())) {
-                    $options = Mage::helper('sampleorder')->getOptions($item);
-                    if($request['sku'] === $options['sku']) {
+            foreach ($cart->getAllItems() as $cartItem) {
+                if($cartItem->getCustomPrice()) {
+                    $sampleorder = $cartItem->getBuyRequest()->getSampleorder();
+                    if(intval($sampleorder['product_id']) === intval($product->getId())) {
                         $count++;
                     }
                 }
             }
 
-            if($count > 1) {
+            if($count > 0) {
                 Mage::getSingleton('checkout/session')->addError(Mage::helper('Catalog')->__('Some of the products cannot be ordered in the requested quantity.'));
                 Mage::app()->getResponse()->setRedirect(Mage::getUrl('checkout/cart'))->sendResponse();
                 exit;
             }
 
-            $sampleorder = array(
-                'id'  => $request['id'],
-                'sku' => $request['sku']
-            );
-
-            // store in quote item
-            $product = $quoteItem->getProduct();
-            $product->addCustomOption('sampleorder', serialize($sampleorder));
-            $quoteItem->addOption($product->getCustomOption('sampleorder'));
+            $item->setCustomPrice(0);
+            $item->setOriginalCustomPrice(0);
+            $item->setCustomName($name);
+            $item->setOriginalCustomName($name);
+            $product->setIsSuperMode(true);
+            $product->addCustomOption(Mhauri_SampleOrder_Helper_Data::SAMPLE_ORDER, serialize($params));
+            $item->addOption($product->getCustomOption(Mhauri_SampleOrder_Helper_Data::SAMPLE_ORDER));
         }
     }
 
-    /**
-     * Copy quote item options to order item
-     *
-     * @param Varien_Event_Observer $observer
-     *
-     * @event sales_convert_quote_item_to_order_item
-     */
-    public function rewriteCustomOptions($observer)
-    {
-        $item = $observer->getEvent()->getOrderItem();
-        $quoteItem = $observer->getEvent()->getItem();
 
-        if (Mage::helper('sampleorder')->isSampleOrder($item->getSku())
-            && $sampleorder = Mage::helper('sampleorder')->getOptions($quoteItem)
-        ) {
-            $options['sampleorder'] = $sampleorder;
-            $item->setProductOptions($options);
+    public function checkoutCartUpdateItemsAfter(Varien_Event_Observer $observer)
+    {
+        $items = $observer->getCart()->getQuote()->getAllVisibleItems();
+        foreach($items as $item) {
+            $test = $item;
         }
     }
 }

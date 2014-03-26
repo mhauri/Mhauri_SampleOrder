@@ -6,40 +6,19 @@
 class Mhauri_SampleOrder_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
-    const SKU_SAMPLE_ORDER = 'sampleorder';
-
+    const SAMPLE_ORDER = 'sampleorder';
 
     /**
-     * Returns true if the product
-     * of the given SKU is a sampleorder
+     * Check if the product allows sample orders
      *
-     * @param string $sku
+     * @param Mage_Catalog_Model_Product $item
      * @return bool
      */
-    public function isSampleOrder($sku)
+    public function isSampleOrderAllowed(Mage_Catalog_Model_Product $item)
     {
-        return strpos($sku, self::SKU_SAMPLE_ORDER) === 0;
-    }
-
-    /**
-     * Returns the request sample options, as there are many ways we try to catch them all
-     *
-     * @param Mage_Sales_Model_Quote_Item $item
-     * @return mixed
-     */
-    public function getOptions($item)
-    {
-        if($options = $item->getOptionByCode(self::SKU_SAMPLE_ORDER)) {
-            return unserialize($options->getValue());
-        } else if($options = $item->getOptionByCode('info_buyRequest')) {
-            return unserialize($options->getValue());
-        } else if ($options = $item->getProductOptions()) {
-            if(isset($options['info_buyRequest'])) {
-                return $options['info_buyRequest'];
-            } else {
-                return $options[self::SKU_SAMPLE_ORDER];
-            }
-
+        if(strtolower($item->getAttributeText(self::SAMPLE_ORDER)) === 'yes')
+        {
+            return true;
         }
         return false;
     }
