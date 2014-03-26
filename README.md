@@ -6,8 +6,8 @@ This is my first free Magento extension and provides a solution to order a free 
 It doesn’t provide frontend adaptions. To make it work just add a link like */sampleorder/add/product/id/{product_id}* in your template file.
 
 
-Donate
-======
+Donation
+========
 
 This extension is absolutely free to use, but if you like it I would appreciate a small donation.
 
