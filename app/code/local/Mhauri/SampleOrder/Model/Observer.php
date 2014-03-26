@@ -70,8 +70,6 @@ class Mhauri_SampleOrder_Model_Observer
 
             $item->setCustomPrice(0);
             $item->setOriginalCustomPrice(0);
-            $item->setCustomName($name);
-            $item->setOriginalCustomName($name);
             $product->setIsSuperMode(true);
             $product->addCustomOption(Mhauri_SampleOrder_Helper_Data::SAMPLE_ORDER, serialize($params));
             $item->addOption($product->getCustomOption(Mhauri_SampleOrder_Helper_Data::SAMPLE_ORDER));
