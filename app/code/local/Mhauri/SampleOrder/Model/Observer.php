@@ -5,7 +5,13 @@
  */
 class Mhauri_SampleOrder_Model_Observer
 {
-    public function checkoutCartProductAddAfter(Varien_Event_Observer $observer)
+
+    /**
+     * If it is allowed to add the product as a sample, add it to the basket and set the price to zero
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function salesQuoteAddItem(Varien_Event_Observer $observer)
     {
         $item    = $observer->getQuoteItem();
 
@@ -38,7 +44,7 @@ class Mhauri_SampleOrder_Model_Observer
             }
 
             if($count > 0) {
-                Mage::getSingleton('checkout/session')->addError(Mage::helper('Catalog')->__('Some of the products cannot be ordered in the requested quantity.'));
+                Mage::getSingleton('checkout/session')->addError(Mage::helper('sampleorder')->__('The product %s cannot be ordered in the requested quantity.', $product->getName()));
                 Mage::app()->getResponse()->setRedirect(Mage::getUrl('checkout/cart'))->sendResponse();
                 exit;
             }
@@ -54,11 +60,22 @@ class Mhauri_SampleOrder_Model_Observer
     }
 
 
+    /**
+     * Be sure that a sample can only be ordered once in the cart
+     *
+     * @param Varien_Event_Observer $observer
+     */
     public function checkoutCartUpdateItemsAfter(Varien_Event_Observer $observer)
     {
-        $items = $observer->getCart()->getQuote()->getAllVisibleItems();
+        $items = $observer->getCart()->getQuote()->getAllItems();
         foreach($items as $item) {
-            $test = $item;
+            if($item->getBuyRequest()->getSampleorder()) {
+                if($item->getQty() > 1) {
+                    Mage::getSingleton('checkout/session')->addError(Mage::helper('sampleorder')->__('The product %s cannot be ordered in the requested quantity.', $item->getName()));
+                    Mage::app()->getResponse()->setRedirect(Mage::getUrl('checkout/cart'))->sendResponse();
+                    exit;
+                }
+            }
         }
     }
 }
