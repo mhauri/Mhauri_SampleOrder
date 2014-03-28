@@ -41,4 +41,25 @@ class Mhauri_SampleOrder_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return false;
     }
+
+    /**
+     * Retrieve url for adding product as sample
+     *
+     * @param Mage_Catalog_Model_Product $item
+     *
+     * @return  string|bool
+     */
+    public function getAddUrl($item)
+    {
+        $productId = null;
+        if ($item instanceof Mage_Catalog_Model_Product) {
+            $productId = $item->getEntityId();
+        }
+
+        if ($productId) {
+            return $this->_getUrl('sampleorder/add/product/id/' . $productId);
+        }
+
+        return false;
+    }
 }
