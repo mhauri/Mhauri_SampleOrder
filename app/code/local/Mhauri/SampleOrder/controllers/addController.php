@@ -60,7 +60,7 @@ class Mhauri_SampleOrder_AddController extends Mage_Core_Controller_Front_Action
             Mage::getSingleton('checkout/session')->addSuccess($message);
             Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('checkout/cart'));
         } else {
-            $session->addError(Mage::helper('sampleorder')->__(''));
+            $session->addError(Mage::helper('sampleorder')->__('%s cannot be ordered as a sample.', $product->getName()));
             $this->_redirect('/');
             return;
         }
