@@ -1,9 +1,17 @@
 Mhauri_SampleOrder
 ==================
 
-This is my first free Magento extension and provides a solution to order a free sample of any product in the catalog, configured via custom attribute.
+This is my first free Magento extension who provides a solution to order a free sample of any product in the catalog, configured via custom attribute.
 
-It doesn’t provide frontend adaptions. To make it work just add a link like */sampleorder/add/product/id/{product_id}* in your template file.
+It doesn’t provide frontend adaptions.
+To make it work just add a link like */sampleorder/add/product/id/{product_id}* in your template file or use the following example instead:
+
+```php
+<?php $_sampleorderUrl = $this->helper('sampleorder')->getAddUrl($_product); ?>
+<?php if ($this->helper('sampleorder')->isSampleOrderAllowed($_product)) : ?>
+    <li><a href="<?php echo $_sampleorderUrl ?>" class="link-sampleorder"><?php echo $this->helper('sampleorder')->__('Sample Order') ?></a></li>
+<?php endif; ?>
+```
 
 
 Donation
