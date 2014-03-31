@@ -15,7 +15,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @copyright Copyright 2014, Marcel Hauri (https://github.com/mhauri)
+ * @copyright Copyright 2014, Marcel Hauri (https://github.com/mhauri/Mhauri_SampleOrder/)
  *
  * @category Order
  * @package Mhauri_SampleOrder
