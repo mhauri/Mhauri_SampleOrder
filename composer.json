@@ -1,0 +1,16 @@
+{
+    "name":"mhauri/Mhauri_SampleOrder",
+    "type":"magento-module",
+    "license":"OSL-3.0",
+    "homepage":"https://github.com/mhauri/Mhauri_SampleOrder",
+    "description":"Povides a solution to order a free sample of product through the normal checkout process, configured by a custom attribute.",
+    "authors":[
+        {
+            "name":"Marcel Hauri",
+            "email":"marcel@hauri.me"
+        }
+    ],
+    "require":{
+        "magento-hackathon/magento-composer-installer":"*"
+    }
+}
