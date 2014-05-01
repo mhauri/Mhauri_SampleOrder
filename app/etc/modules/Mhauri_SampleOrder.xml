@@ -3,7 +3,7 @@
     <modules>
         <Mhauri_SampleOrder>
             <active>true</active>
-            <codePool>local</codePool>
+            <codePool>community</codePool>
         </Mhauri_SampleOrder>
     </modules>
 </config>
