@@ -22,44 +22,25 @@
  * @author Marcel Hauri <marcel@hauri.me>
  */
 
-class Mhauri_SampleOrder_Helper_Data extends Mage_Core_Helper_Abstract
-{
+$this->startSetup();
 
-    const SAMPLE_ORDER = 'sampleorder';
+$this->removeAttribute('catalog_product', 'dirty');
 
-    /**
-     * Check if the product allows sample orders
-     *
-     * @param  Mage_Catalog_Model_Product $item
-     * @return bool
-     */
-    public function isSampleOrderAllowed(Mage_Catalog_Model_Product $item)
-    {
-        if ($item->getSampleorder()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Retrieve url for adding product as sample
-     *
-     * @param Mage_Catalog_Model_Product $item
-     *
-     * @return string|bool
-     */
-    public function getAddUrl($item)
-    {
-        $productId = null;
-        if ($item instanceof Mage_Catalog_Model_Product) {
-            $productId = $item->getEntityId();
-        }
-
-        if ($productId) {
-            return $this->_getUrl('sampleorder/add/product/id/' . $productId);
-        }
-
-        return false;
-    }
-}
+$this->addAttribute('catalog_product', Mhauri_SampleOrder_Helper_Data::SAMPLE_ORDER, array(
+        'group'             => 'General',
+        'type'              => 'int',
+        'label'             => 'Sample order allowed',
+        'input'             => 'boolean',
+        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'visible'           => false,
+        'required'          => false,
+        'user_defined'      => true,
+        'searchable'        => false,
+        'filterable'        => true,
+        'comparable'        => false,
+        'visible_on_front'  => false,
+        'unique'            => false,
+        'is_configurable'   => true,
+        'apply_to'          => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+    ));
+$this->endSetup();

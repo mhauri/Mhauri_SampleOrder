@@ -35,6 +35,7 @@ class Mhauri_SampleOrder_AddController extends Mage_Core_Controller_Front_Action
         $productId = (int) $this->getRequest()->getParam('id');
         if (!$productId) {
             $this->_redirect('/');
+
             return;
         }
 
@@ -42,10 +43,11 @@ class Mhauri_SampleOrder_AddController extends Mage_Core_Controller_Front_Action
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $session->addError(Mage::helper('sampleorder')->__('Not a valid product!'));
             $this->_redirect('/');
+
             return;
         }
 
-        if(Mage::helper('sampleorder')->isSampleOrderAllowed($product)) {
+        if (Mage::helper('sampleorder')->isSampleOrderAllowed($product)) {
 
             $option[Mhauri_SampleOrder_Helper_Data::SAMPLE_ORDER] = array(
                 'product_id' => $productId,
@@ -62,6 +64,7 @@ class Mhauri_SampleOrder_AddController extends Mage_Core_Controller_Front_Action
         } else {
             $session->addError(Mage::helper('sampleorder')->__('%s cannot be ordered as a sample.', $product->getName()));
             $this->_redirect('/');
+
             return;
         }
     }

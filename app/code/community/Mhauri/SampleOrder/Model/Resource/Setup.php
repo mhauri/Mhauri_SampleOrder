@@ -22,5 +22,6 @@
  * @author Marcel Hauri <marcel@hauri.me>
  */
 
-class Mhauri_SampleOrder_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup {
+class Mhauri_SampleOrder_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
+{
 }

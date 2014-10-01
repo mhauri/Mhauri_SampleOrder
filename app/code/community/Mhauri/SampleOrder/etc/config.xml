@@ -26,7 +26,7 @@
 <config>
     <modules>
         <Mhauri_SampleOrder>
-            <version>1.0.3</version>
+            <version>1.0.4</version>
         </Mhauri_SampleOrder>
     </modules>
     <global>
@@ -97,5 +97,26 @@
                 </args>
             </sampleorder>
         </routers>
+        <translate>
+            <modules>
+                <sampleorder>
+                    <files>
+                        <default>Mhauri_SampleOrder.csv</default>
+                    </files>
+                </sampleorder>
+            </modules>
+        </translate>
     </frontend>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <sampleorder>
+                    <files>
+                        <default>Mhauri_SampleOrder.csv</default>
+                    </files>
+                </sampleorder>
+            </modules>
+        </translate>
+    </adminhtml>
 </config>

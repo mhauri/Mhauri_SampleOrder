@@ -1,2 +1,3 @@
 app/etc/modules/Mhauri_SampleOrder.xml          app/etc/modules/Mhauri_SampleOrder.xml
 app/code/community/Mhauri/SampleOrder           app/code/community/Mhauri/SampleOrder
+app/locale/de_DE/Mhauri_SampleOrder.csv         app/locale/de_DE/Mhauri_SampleOrder.csv
