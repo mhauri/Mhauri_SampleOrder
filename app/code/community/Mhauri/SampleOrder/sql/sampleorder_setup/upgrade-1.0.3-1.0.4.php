@@ -24,7 +24,7 @@
 
 $this->startSetup();
 
-$this->removeAttribute('catalog_product', 'dirty');
+$this->removeAttribute('catalog_product', Mhauri_SampleOrder_Helper_Data::SAMPLE_ORDER);
 
 $this->addAttribute('catalog_product', Mhauri_SampleOrder_Helper_Data::SAMPLE_ORDER, array(
         'group'             => 'General',
