@@ -1,7 +1,7 @@
 Mhauri_SampleOrder
 ==================
 
-This is my first free Magento extension who provides a solution to order a free sample through the normal checkout process of any product in the catalog, configured by a custom attribute.
+This is my first free Magento extension who provides a solution to order a free sample through the normal checkout pro,,cess of any product in the catalog, configured by a custom attribute.
 
 It doesn’t provide frontend adaptions.
 To make it work just add a link like */sampleorder/add/product/id/{product_id}* in your template file or use the following example instead:
@@ -24,6 +24,11 @@ This extension is absolutely free to use, but if you like it I would appreciate 
 
 Changelog
 =========
+* **1.0.5**
+  - Several bugfixes
+  - CE 1.9 compatible
+  - Fix controller filename
+
 * **1.0.4**
   - Add german translations
   - update attribute from type select to type boolean
