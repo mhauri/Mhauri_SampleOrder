@@ -36,15 +36,14 @@
             </sampleorder>
         </models>
         <events>
-
-            <sales_quote_add_item>
+            <checkout_cart_product_add_after>
                 <observers>
                     <sampleorderSalesQuoteAddItem>
                         <class>sampleorder/observer</class>
                         <method>salesQuoteAddItem</method>
                     </sampleorderSalesQuoteAddItem>
                 </observers>
-            </sales_quote_add_item>
+            </checkout_cart_product_add_after>
             <checkout_cart_update_items_after>
                 <observers>
                     <sampleorderApply>

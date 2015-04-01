@@ -2,5 +2,6 @@
 "Sample: %s","Muster %s"
 "Not a valid product!","Produkt nicht gefunden!"
 "The product %s cannot be ordered in the requested quantity.","Das Produkt %s konnte nicht in der gewünschten Menge hinzugefügt werden."
+"The product %s is alredy in your cart.","Das Produkt %s befindet sich bereits im Warenkorb"
 "%s was successfully added to your shopping cart.","%s wurde erfolgreich zum Warenkorb hinzugefügt."
 "%s cannot be ordered as a sample.","%s kann nicht als Muster bestellt werden."

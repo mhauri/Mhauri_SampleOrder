@@ -40,25 +40,23 @@ class Mhauri_SampleOrder_Model_Observer
 
         $product = $item->getProduct();
 
-        if (Mage::helper('sampleorder')->isSampleOrderAllowed($product) && $item->getBuyRequest()->getSampleorder()) {
+        if (Mage::helper('sampleorder')->isSampleOrderAllowed($product) && Mage::helper('sampleorder')->isSampleOrderItem($item)) {
 
             $name = Mage::helper('sampleorder')->__('Sample: %s', $product->getName());
-
             $params = array(
                 'id'    => $product->getId(),
                 'name'  => $name,
                 'price' => 0
             );
 
+            $product->setName($name);
+
             // check if the sample is already in the basket
             $count = 0;
             $cart = Mage::getModel('checkout/cart')->getQuote();
             foreach ($cart->getAllItems() as $cartItem) {
                 if ($cartItem->getCustomPrice()) {
-                    $sampleorder = $cartItem->getBuyRequest()->getSampleorder();
-                    if (intval($sampleorder['product_id']) === intval($product->getId())) {
-                        $count++;
-                    }
+                    $count++;
                 }
             }
 
@@ -68,6 +66,7 @@ class Mhauri_SampleOrder_Model_Observer
                 exit;
             }
 
+            $item->setName(Mage::helper('sampleorder')->__('Sample: %s', $item->getName()));
             $item->setCustomPrice(0);
             $item->setOriginalCustomPrice(0);
             $product->setIsSuperMode(true);
@@ -85,8 +84,9 @@ class Mhauri_SampleOrder_Model_Observer
     {
         $items = $observer->getCart()->getQuote()->getAllItems();
         foreach ($items as $item) {
-            if ($item->getBuyRequest()->getSampleorder()) {
+            if (Mage::helper('sampleorder')->isSampleOrderItem($item)) {
                 if ($item->getQty() > 1) {
+                    $item->setName(Mage::helper('sampleorder')->__('Sample: %s', $item->getName()));
                     Mage::getSingleton('checkout/session')->addError(Mage::helper('sampleorder')->__('The product %s cannot be ordered in the requested quantity.', $item->getName()));
                     Mage::app()->getResponse()->setRedirect(Mage::getUrl('checkout/cart'))->sendResponse();
                     exit;

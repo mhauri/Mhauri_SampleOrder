@@ -62,4 +62,21 @@ class Mhauri_SampleOrder_Helper_Data extends Mage_Core_Helper_Abstract
 
         return false;
     }
+
+
+    /**
+     * Check if the item is a sample order
+     *
+     * @param $item
+     * @return bool
+     */
+    public function isSampleOrderItem($item)
+    {
+        foreach($item->getOptionsByCode() as $code => $data) {
+            if($code === Mhauri_SampleOrder_Helper_Data::SAMPLE_ORDER) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

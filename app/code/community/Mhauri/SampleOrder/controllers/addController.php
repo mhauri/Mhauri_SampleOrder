@@ -49,12 +49,15 @@ class Mhauri_SampleOrder_AddController extends Mage_Core_Controller_Front_Action
 
         if (Mage::helper('sampleorder')->isSampleOrderAllowed($product)) {
 
-            $option[Mhauri_SampleOrder_Helper_Data::SAMPLE_ORDER] = array(
-                'product_id' => $productId,
-                'timestamp'  => time()
+            $params = array(
+                'id'    => $product->getId(),
+                'orig_price' => $product->getPrice()
             );
+
+            $product->addCustomOption(Mhauri_SampleOrder_Helper_Data::SAMPLE_ORDER, serialize($params));
+
             $cart = Mage::getSingleton('checkout/cart');
-            $cart->addProduct($productId, $option);
+            $cart->addProduct($product);
             $cart->save();
 
             Mage::getSingleton('checkout/session')->setCartWasUpdated(true);
